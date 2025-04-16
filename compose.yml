@@ -85,7 +85,7 @@ services:
       - monitoring
 
   nginx-log-exporter:
-    image: quay.io/prometheuscommunity/nginx-log-exporter:latest
+    image: magentall/nginx-log-exporter:latest
     container_name: nginx-log-exporter
     volumes:
       - ./nginx-exporter-config.yml:/etc/nginx-log-exporter/config.yml
@@ -96,6 +96,28 @@ services:
       - monitoring
     depends_on:
       - webapp
+
+  goaccess:
+    image: allinurl/goaccess:latest
+    container_name: goaccess
+    volumes:
+      - ./nginx-logs:/nginx-logs:ro
+    command: 
+      - "--log-format=COMBINED"
+      - "--log-file=/nginx-logs/access.log"
+      - "--real-time-html"
+    ports:
+      - "7890:7890"
+    networks:
+      - monitoring
+
+  goaccess-prometheus:
+    image: prom/pushgateway:latest
+    container_name: goaccess-prometheus
+    ports:
+      - "9091:9091"
+    networks:
+      - monitoring
 
 networks:
   monitoring:
