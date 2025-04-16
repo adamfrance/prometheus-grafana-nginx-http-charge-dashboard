@@ -73,6 +73,8 @@ services:
       - monitoring
     depends_on:
       - webapp
+  
+
 
   k6:
     image: grafana/k6:latest
@@ -81,6 +83,19 @@ services:
       - ./k6:/scripts
     networks:
       - monitoring
+
+  nginx-log-exporter:
+    image: quay.io/prometheuscommunity/nginx-log-exporter:latest
+    container_name: nginx-log-exporter
+    volumes:
+      - ./nginx-exporter-config.yml:/etc/nginx-log-exporter/config.yml
+      - ./nginx-logs:/var/log/nginx
+    ports:
+      - "4040:4040"
+    networks:
+      - monitoring
+    depends_on:
+      - webapp
 
 networks:
   monitoring:
