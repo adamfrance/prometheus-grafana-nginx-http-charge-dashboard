@@ -29,6 +29,6 @@ scrape_configs:
     static_configs:
       - targets: ['nginx-log-exporter:4040']
 
-  - job_name: 'pushgateway'
+  - job_name: 'telegraf'
     static_configs:
-      - targets: ['goaccess-prometheus:9091']
+      - targets: ['telegraf:9273']
