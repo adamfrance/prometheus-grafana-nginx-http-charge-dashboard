@@ -1,0 +1,34 @@
+listen:
+  port: 4040
+  address: "0.0.0.0"
+
+namespaces:
+  - name: nginx
+    format: '$remote_addr - $remote_user [$time_local] "$request" $status $body_bytes_sent "$http_referer" "$http_user_agent" $request_time'
+    source_files:
+      - /var/log/nginx/access.log
+    metrics:
+      - name: http_response_count_total
+        type: counter
+        help: "Count of HTTP responses"
+        match: '.*'
+        labels:
+          status: "$status"
+          method: "$request_method"
+
+      - name: http_response_size_bytes
+        type: counter
+        help: "Size of HTTP responses in bytes"
+        match: '.*'
+        value: "$body_bytes_sent"
+        labels:
+          status: "$status"
+          
+      - name: http_upstream_time_seconds
+        type: histogram
+        help: "HTTP request time in seconds"
+        match: '.*'
+        value: "$request_time"
+        buckets: [0.01, 0.05, 0.1, 0.5, 1, 5]
+        labels:
+          status: "$status"

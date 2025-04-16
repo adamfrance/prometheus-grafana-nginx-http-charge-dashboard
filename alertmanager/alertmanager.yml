@@ -1,0 +1,17 @@
+# alertmanager/alertmanager.yml
+global:
+  resolve_timeout: 1m
+
+route:
+  receiver: 'webhook'
+  group_wait: 0s
+  group_interval: 1m
+  repeat_interval: 1m
+  group_by: ['alertname']
+
+receivers:
+  - name: 'webhook'
+    webhook_configs:
+      - url: 'https://webhook.site/71c6867c-5936-4bc3-bc8f-b3aef019b683'
+        send_resolved: true
+        max_alerts: 0

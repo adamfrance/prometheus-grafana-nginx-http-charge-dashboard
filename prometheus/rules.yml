@@ -1,0 +1,20 @@
+groups:
+  - name: nginx_alerts
+    rules:
+      - alert: NginxDown
+        expr: nginx_up == 0
+        for: 1m
+        labels:
+          severity: critical
+        annotations:
+          summary: "Nginx down"
+          description: "Nginx instance {{ $labels.instance }} est arrêté"
+          
+      - alert: HighConnections
+        expr: nginx_connections_current > 40
+        for: 1m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Connexions élevées"
+          description: "{{ $value }} connexions actives"
