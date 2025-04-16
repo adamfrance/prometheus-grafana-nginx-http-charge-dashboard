@@ -8,7 +8,7 @@ namespaces:
     source_files:
       - /var/log/nginx/access.log
     metrics:
-      - name: http_response_count_total
+      - name: nginx_http_response_count_total
         type: counter
         help: "Count of HTTP responses"
         match: '.*'
@@ -16,7 +16,7 @@ namespaces:
           status: "$status"
           method: "$request_method"
 
-      - name: http_response_size_bytes
+      - name: nginx_http_response_size_bytes
         type: counter
         help: "Size of HTTP responses in bytes"
         match: '.*'
@@ -24,7 +24,7 @@ namespaces:
         labels:
           status: "$status"
           
-      - name: http_upstream_time_seconds
+      - name: nginx_http_upstream_time_seconds
         type: histogram
         help: "HTTP request time in seconds"
         match: '.*'
