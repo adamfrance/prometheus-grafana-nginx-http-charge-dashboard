@@ -11,7 +11,7 @@ groups:
           description: "Nginx instance {{ $labels.instance }} est arrêté"
           
       - alert: HighConnections
-        expr: nginx_connections_current > 40
+        expr: nginx_connections_active > 40
         for: 1m
         labels:
           severity: warning
